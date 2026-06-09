@@ -1,0 +1,42 @@
+-- This script will show Foreign Keys, multiplicity (AKA cardinality), and CASCADE
+
+CREATE TABLE users(
+  -- Serial gives you an auto-incrementing bigint primary key
+  user_id SERIAL, 
+  user_name text
+ );
+ 
+ 
+ -- NOW, let's make a table that depends on users
+ 
+ -- This is a one-to-many relationship
+ CREATE TABLE computers(
+   computer_id SERIAL,
+   computer_model text,
+   user_id_fk BIGINT UNSIGNED, -- serial PK are "unsigned bigints". So any FKs need to match that.
+   CONSTRAINT fk_user FOREIGN KEY (user_id_fk) REFERENCES users(user_id)
+ );
+ 
+ -- What is that??^ We've just made it so that computers BELONG to certain users
+ -- one-to-many relationship: one user can own many computers
+ -- inversely, many computers can belong to the same user
+ 
+ -- The FK ALWAYS POINTS TO the PK of the table it depends on
+ 
+
+ 
+ -- DML HERE --------------------------
+ 
+DESCRIBE users;
+
+INSERT INTO users (user_name)
+VALUES ('ElderGoose'), ('SQLLuvr'), ('WolfnBear');
+
+SELECT * FROM users;
+
+INSERT INTO computers (computer_model, user_id_fk)
+VALUES ('Dell', 1), ('Lenovo', 1), ('Toshiba', 2);
+
+SELECT * FROM computers;
+
+ 

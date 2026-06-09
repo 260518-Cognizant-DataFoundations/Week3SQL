@@ -32,7 +32,8 @@ DESCRIBE employees;
 
 -- Insert adds records to the table
 INSERT INTO employees(username, age, salary)
-VALUES('Bob', 35, 200000), ('Joe', 38, 225000), ("Mike", 55, 500000);
+VALUES('Bob', 35, 200000), ('Joe', 38, 225000), ('Mike', 55, 500000), ('Ken', 42, null),
+('Jeff', 35, 200000), ('Sukalyan', 21, 200000), ('Dave', 48, 200000);
 
 -- Select shows table data (goes way deeper than this)
 SELECT * FROM employees;
@@ -91,7 +92,23 @@ SELECT lower('I AM BIG AND MIGHTY');
 -- throwing in "AS" to change the result column name
 SELECT max(salary) AS Max_Salary FROM employees;
 
+-- count() returns a number representing the amount of returned records
+SELECT count(*) FROM employees;
+SELECT count(*) as Bobs FROM employees WHERE username = 'Bob'; 
+SELECT count(salary) as Salaries FROM employees; -- Does the null get counted? NO!
 
+
+-- GROUP BY and HAVING ------------------------------
+
+-- GROUP BY will merge records together based on matching column values
+SELECT salary, count(*) AS Salary_Counts FROM employees GROUP BY salary;
+
+-- HAVING is like a WHERE clause but for aggregate functions. It's ONLY used after GROUP BY.
+
+SELECT salary, count(*) AS Salary_Counts_No_Nulls FROM employees GROUP BY salary HAVING salary IS NOT NULL;
+
+-- HAVING exists because WHERE doesn't work after a group by 
+-- WHERE only works after table selection. It only works on the raw table data.
 
 
 -- Calling truncate just to show it (removes all data)

@@ -41,8 +41,11 @@ CREATE TABLE user_badges(
   CONSTRAINT fk_user_badge FOREIGN KEY (user_id_fk) REFERENCES users(user_id) ON DELETE CASCADE
 );
  
+ -- ------------------------
+ -- many-to-many relationship
+ -- ------------------------
 
-
+-- This table is not directly related to the users table, but see below-
 CREATE TABLE snacks(
   snack_id SERIAL,
   snack_name text

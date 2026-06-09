@@ -38,18 +38,40 @@ CREATE TABLE user_badges(
   badge_id SERIAL,
   badge_number CHAR(10) UNIQUE NOT NULL,
   user_id_fk BIGINT UNSIGNED UNIQUE, -- Enforces the 1-1!
-  CONSTRAINT fk_user_badge FOREIGN KEY (user_id_fk) REFERENCES users(user_id)
+  CONSTRAINT fk_user_badge FOREIGN KEY (user_id_fk) REFERENCES users(user_id) ON DELETE CASCADE
 );
  
- 
 
+
+CREATE TABLE snacks(
+  snack_id SERIAL,
+  snack_name text
+ );
+ 
+ 
+ -- JOIN TABLE - These tables define a many-to-many relationship between two tables --
+ -- Many snacks can belong to many users.
+ CREATE TABLE user_snack_registrations(
+ 	user_id BIGINT UNSIGNED,
+    snack_id BIGINT UNSIGNED,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES users(user_id),
+   CONSTRAINT fk_snack FOREIGN KEY (snack_id) REFERENCES snacks(snack_id),
+   -- This table has a composite key (a Primary Key made up of multiple columns)
+   PRIMARY KEY(user_id, snack_id)
+ );
+ 
+ 
  
  -- DML HERE --------------------------
  
 DESCRIBE users;
+DESCRIBE computers;
+DESCRIBE user_badges;
+DESCRIBE snacks;
+
 
 INSERT INTO users (user_name)
-VALUES ('ElderGoose'), ('SQLLuvr'), ('WolfnBear');
+VALUES ('ElderGoose'), ('SQLLuvr'), ('WolfnBear'), ('IHaveNothing');
 
 SELECT * FROM users;
 
@@ -66,8 +88,24 @@ SELECT * FROM computers;
 
 -- Insert some badges, see what happens when we try to insert 2 badges for the same person
 INSERT INTO user_badges (badge_number, user_id_fk)
-VALUES ('1234567890', 1), ('1234567891', 2), ('1234567892', 3);
+VALUES ('1234567890', 1), ('1234567891', 2), ('1234567892', 3), ('1234567898', 4);
 
 SELECT * FROM user_badges;
 
+-- Thanks to CASCADE, deleting a user deletes the badge
+
+DELETE FROM users WHERE user_id = 4;
+SELECT * FROM user_badges;
+
+
+-- Insert some snack
+INSERT INTO snacks(snack_name)
+VALUES ('Goldfish'), ('Poptart');
+
+
+-- Inserting into the join table
+INSERT INTO user_snack_registrations(user_id, snack_id)
+VALUES (1, 2), (1, 1), (2, 2), (3, 2);
+
+SELECT * FROM user_snack_registrations;
  

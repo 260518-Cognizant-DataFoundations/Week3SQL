@@ -110,6 +110,26 @@ SELECT salary, count(*) AS Salary_Counts_No_Nulls FROM employees GROUP BY salary
 -- HAVING exists because WHERE doesn't work after a group by 
 -- WHERE only works after table selection. It only works on the raw table data.
 
+-- UPDATE AND DELETE ------------------------------------
+
+-- The last two DML commands we haven't talked about
+
+-- Unless you want to update every single record, UPDATE needs a WHERE clause
+UPDATE employees SET salary = 300000 WHERE user_id = 6;
+
+-- The intern can have a raise too
+UPDATE employees SET salary = 1 WHERE salary IS NULL;
+
+
+-- Unless you want to delete every single record, DELETE needs a WHERE clause
+
+-- The intern brought Sukalyan cold coffee
+DELETE FROM employees WHERE salary = 1;
+
+
+-- just to see
+select * from employees;
+
 
 -- Calling truncate just to show it (removes all data)
 TRUNCATE TABLE employees;

@@ -32,36 +32,66 @@ DESCRIBE employees;
 
 -- Insert adds records to the table
 INSERT INTO employees(username, age, salary)
-VALUES('Bob', 35, 200000), 
-('Joe', 38, 225000),
-('Michael', 55, 500000);
+VALUES('Bob', 35, 200000), ('Joe', 38, 225000), ("Mike", 55, 500000);
 
 -- Select shows table data (goes way deeper than this)
 SELECT * FROM employees;
 
--- We don't have to just select "all". We can selet certain columns alone
-SELECT username, salary FROM employees;
-
--- the WHERE clause (helps us filter the data that gets returned)------------------------------------
+-- the where clause ---------------
 
 SELECT * FROM employees WHERE salary = 200000;
 
 SELECT * FROM employees WHERE age > 35;
 
+-- quick subquery, which is query inside query
+
+SELECT * FROM employees WHERE salary <
+(SELECT AVG(salary) FROM employees);
+
+
+-- Note above, we aren't limeted to selcting all, we can select certain columns alone
+
+SELECT username, salary FROM employees;
+
+
 SELECT * FROM employees WHERE salary BETWEEN 200001 AND 300000;
 
 -- The wildcard (%) can be used to denote values that can be anything
--- This is often used with the "LIKE" operator
+-- often used with the "LIKE" operator
+
 SELECT * FROM employees WHERE username LIKE 'B%';
 
 SELECT * FROM employees WHERE salary = 300000 OR salary = 500000;
 
--- IN is more graceful than OR if you have potentially a ton of values to check
-SELECT * FROM employees WHERE salary IN ('100000', '200000', '300000', '400000')
 
--- Here's a quick SUBQUERY, which is just a query inside a query
--- NOTE the function used! avg() gets the average of a certain column
-SELECT * FROM employees WHERE salary < (SELECT avg(salary) FROM employees);
+-- IN is more graceful than OR if you have potentially a ton of values to check
+SELECT * FROM employees WHERE salary IN ('100000', '200000', '300000', '400000', '500000');
+
+
+
+-- ORDER BY - orders results based on certain column
+
+-- order numerically
+SELECT * FROM employees ORDER BY salary;
+
+-- order alphabetically
+SELECT * FROM employees ORDER BY username DESC;
+-- need to specify desc for descending order
+
+-- FUNCTIONS - take in one or more values and return a single value
+
+-- scalar functions take in up to one value and return one value
+
+SELECT now();
+SELECT upper('i am in all caps now');
+SELECT lower('I AM BIG AND MIGHTY');
+
+-- aggregate function take in multiple values and return one value
+
+-- throwing in "AS" to change the result column name
+
+SELECT max(salary) FROM employees;
+
 
 
 

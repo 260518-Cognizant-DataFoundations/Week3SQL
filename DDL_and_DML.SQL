@@ -89,8 +89,7 @@ SELECT lower('I AM BIG AND MIGHTY');
 -- aggregate function take in multiple values and return one value
 
 -- throwing in "AS" to change the result column name
-
-SELECT max(salary) FROM employees;
+SELECT max(salary) AS Max_Salary FROM employees;
 
 
 

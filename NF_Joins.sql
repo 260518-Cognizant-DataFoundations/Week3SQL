@@ -117,5 +117,23 @@ SELECT * FROM videogames v INNER JOIN developers d ON v.dev_id_fk = d.dev_id WHE
  	UNION
   SELECT * FROM videogames v RIGHT JOIN developers d ON v.dev_id_fk = d.dev_id;
   
+-- MISC JOINS ------------------------------
   
+-- Cross Joins return the Cartesian product of both tables 
+  SELECT * FROM videogames v CROSS JOIN developers d ON v.dev_id_fk = d.dev_id;
+
+-- TRANSACTIONS ----------------------------
+
+-- We group commands into transactions if they MUST succeed together or fail together
+-- When we add a game, me need to update the games_released column in developers
+  
+START TRANSACTION;
+  
+INSERT INTO videogames(game_name, game_genre, dev_id_fk)
+values ('Solid Knight', 'Metrovania', 1);
  
+UPDATE developers SET games_released = games_released + 1
+WHERE dev_id = 1; -- hardcoded to keep it simple
+
+COMMIT;
+

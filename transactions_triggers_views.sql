@@ -65,6 +65,25 @@ CREATE VIEW birds_in_busy_nests AS
 SELECT * FROM birds_in_busy_nests;
 
 
+-- -----------------------------------
+-- TRIGGERS - When you want a certain thing to happen after another certain thing
+-- -----------------------------------
+
+-- When we insert a new bird, we need to update the bird count in their nest
+
+CREATE TRIGGER increment_bird_count AFTER INSERT ON birds
+FOR EACH ROW
+BEGIN
+	UPDATE nests SET bird_count = bird_count + 1
+    WHERE nest_id = NEW.nest_id_fk; -- NEW is the record that was most recently inserted.
+END;
+
+SELECT * FROM nests;
+
+INSERT INTO birds (bird_species, nest_id_fk) VALUES ('Tufted Titmouse', 2);
+
+SELECT * FROM nests; -- We should see the bird count update automatically! Thanks trigger
+
 
 
 
